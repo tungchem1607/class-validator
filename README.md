@@ -66,7 +66,7 @@ import {
   IsDate,
   Min,
   Max,
-} from 'class-validator';
+} from 'pirago-class-validator';
 
 export class Post {
   @Length(10, 20)
@@ -197,7 +197,7 @@ You can specify validation message in the decorator options and that message wil
 returned by the `validate` method (in the case that validation for this field fails).
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -220,7 +220,7 @@ There are few special tokens you can use in your messages:
 Example of usage:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -238,7 +238,7 @@ export class Post {
 Also you can provide a function, that returns a message. This allows you to create more granular messages:
 
 ```typescript
-import { MinLength, MaxLength, ValidationArguments } from 'class-validator';
+import { MinLength, MaxLength, ValidationArguments } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -268,7 +268,7 @@ If your field is an array and you want to perform validation of each item in the
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -286,7 +286,7 @@ If your field is a set and you want to perform validation of each item in the se
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -304,7 +304,7 @@ If your field is a map and you want to perform validation of each item in the ma
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -322,7 +322,7 @@ If your object contains nested objects and you want the validator to perform the
 use the `@ValidateNested()` decorator:
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'pirago-class-validator';
 
 export class Post {
   @ValidateNested()
@@ -335,7 +335,7 @@ Please note that nested object _must_ be an instance of a class, otherwise `@Val
 It also works with multi-dimensional array, like :
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'pirago-class-validator';
 
 export class Plan2D {
   @ValidateNested()
@@ -348,7 +348,7 @@ export class Plan2D {
 If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
 
 ```typescript
-import { ValidatePromise, Min } from 'class-validator';
+import { ValidatePromise, Min } from 'pirago-class-validator';
 
 export class Post {
   @Min(0)
@@ -360,7 +360,7 @@ export class Post {
 It also works great with `@ValidateNested` decorator:
 
 ```typescript
-import { ValidateNested, ValidatePromise } from 'class-validator';
+import { ValidateNested, ValidatePromise } from 'pirago-class-validator';
 
 export class Post {
   @ValidateNested()
@@ -374,7 +374,7 @@ export class Post {
 When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 
 class BaseContent {
   @IsEmail()
@@ -413,7 +413,7 @@ validate(user).then(errors => {
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
 
 ```typescript
-import { ValidateIf, IsNotEmpty } from 'class-validator';
+import { ValidateIf, IsNotEmpty } from 'pirago-class-validator';
 
 export class Post {
   otherProperty: string;
@@ -434,7 +434,7 @@ Even if your object is an instance of a validation class it can contain addition
 If you do not want to have such properties on your object, pass special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { whitelist: true });
 ```
@@ -474,7 +474,7 @@ If you would rather to have an error thrown when any non-whitelisted properties 
 `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
@@ -484,7 +484,7 @@ validate(post, { whitelist: true, forbidNonWhitelisted: true });
 It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
 
 ```ts
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 
 class MyClass {
   @MinLength(32, {
@@ -512,7 +512,7 @@ but skip everything else, e.g. skip missing properties.
 In such situations you will need to pass a special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { skipMissingProperties: true });
 ```
@@ -531,7 +531,7 @@ In such cases you can use validation groups.
 > will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
 
 ```typescript
-import { validate, Min, Length } from 'class-validator';
+import { validate, Min, Length } from 'pirago-class-validator';
 
 export class User {
   @Min(12, {
@@ -626,7 +626,7 @@ If you have custom validation logic you can create a _Constraint class_:
 1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
 
    ```typescript
-   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
+   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'pirago-class-validator';
 
    @ValidatorConstraint({ name: 'customText', async: false })
    export class CustomTextLength implements ValidatorConstraintInterface {
@@ -656,7 +656,7 @@ If you have custom validation logic you can create a _Constraint class_:
 2) Then you can use your new validation constraint in your class:
 
    ```typescript
-   import { Validate } from 'class-validator';
+   import { Validate } from 'pirago-class-validator';
    import { CustomTextLength } from './CustomTextLength';
 
    export class Post {
@@ -672,7 +672,7 @@ If you have custom validation logic you can create a _Constraint class_:
 3) And use validator as usual:
 
    ```typescript
-   import { validate } from 'class-validator';
+   import { validate } from 'pirago-class-validator';
 
    validate(post).then(errors => {
      // ...
@@ -682,7 +682,7 @@ If you have custom validation logic you can create a _Constraint class_:
 You can also pass constraints to your validator, like this:
 
 ```typescript
-import { Validate } from 'class-validator';
+import { Validate } from 'pirago-class-validator';
 import { CustomTextLength } from './CustomTextLength';
 
 export class Post {
@@ -696,7 +696,7 @@ export class Post {
 And use them from `validationArguments` object:
 
 ```typescript
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'pirago-class-validator';
 
 @ValidatorConstraint()
 export class CustomTextLength implements ValidatorConstraintInterface {
@@ -714,7 +714,7 @@ Lets create a decorator called `@IsLongerThan`:
 1. Create a decorator itself:
 
    ```typescript
-   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+   import { registerDecorator, ValidationOptions, ValidationArguments } from 'pirago-class-validator';
 
    export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
@@ -764,7 +764,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
      ValidatorConstraint,
      ValidatorConstraintInterface,
      ValidationArguments,
-   } from 'class-validator';
+   } from 'pirago-class-validator';
 
    @ValidatorConstraint({ async: true })
    export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
@@ -811,7 +811,7 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import { Container } from 'typedi';
-import { useContainer, Validator } from 'class-validator';
+import { useContainer, Validator } from 'pirago-class-validator';
 
 // do this somewhere in the global application level:
 useContainer(Container);
@@ -832,7 +832,7 @@ you have.
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import { isEmpty, isBoolean } from 'class-validator';
+import { isEmpty, isBoolean } from 'pirago-class-validator';
 
 isEmpty(value);
 isBoolean(value);
