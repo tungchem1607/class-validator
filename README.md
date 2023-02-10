@@ -44,7 +44,7 @@ Class-validator works on both browser and node.js platforms.
 
 ## Installation
 
-```sh
+```
 npm install class-validator --save
 ```
 
@@ -66,7 +66,7 @@ import {
   IsDate,
   Min,
   Max,
-} from 'class-validator';
+} from 'pirago-class-validator';
 
 export class Post {
   @Length(10, 20)
@@ -197,7 +197,7 @@ You can specify validation message in the decorator options and that message wil
 returned by the `validate` method (in the case that validation for this field fails).
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -220,7 +220,7 @@ There are few special tokens you can use in your messages:
 Example of usage:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -238,7 +238,7 @@ export class Post {
 Also you can provide a function, that returns a message. This allows you to create more granular messages:
 
 ```typescript
-import { MinLength, MaxLength, ValidationArguments } from 'class-validator';
+import { MinLength, MaxLength, ValidationArguments } from 'pirago-class-validator';
 
 export class Post {
   @MinLength(10, {
@@ -268,7 +268,7 @@ If your field is an array and you want to perform validation of each item in the
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -286,7 +286,7 @@ If your field is a set and you want to perform validation of each item in the se
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -304,7 +304,7 @@ If your field is a map and you want to perform validation of each item in the ma
 special `each: true` decorator option:
 
 ```typescript
-import { MinLength, MaxLength } from 'class-validator';
+import { MinLength, MaxLength } from 'pirago-class-validator';
 
 export class Post {
   @MaxLength(20, {
@@ -322,7 +322,7 @@ If your object contains nested objects and you want the validator to perform the
 use the `@ValidateNested()` decorator:
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'pirago-class-validator';
 
 export class Post {
   @ValidateNested()
@@ -335,7 +335,7 @@ Please note that nested object _must_ be an instance of a class, otherwise `@Val
 It also works with multi-dimensional array, like :
 
 ```typescript
-import { ValidateNested } from 'class-validator';
+import { ValidateNested } from 'pirago-class-validator';
 
 export class Plan2D {
   @ValidateNested()
@@ -348,7 +348,7 @@ export class Plan2D {
 If your object contains property with `Promise`-returned value that should be validated, then you need to use the `@ValidatePromise()` decorator:
 
 ```typescript
-import { ValidatePromise, Min } from 'class-validator';
+import { ValidatePromise, Min } from 'pirago-class-validator';
 
 export class Post {
   @Min(0)
@@ -360,7 +360,7 @@ export class Post {
 It also works great with `@ValidateNested` decorator:
 
 ```typescript
-import { ValidateNested, ValidatePromise } from 'class-validator';
+import { ValidateNested, ValidatePromise } from 'pirago-class-validator';
 
 export class Post {
   @ValidateNested()
@@ -374,7 +374,7 @@ export class Post {
 When you define a subclass which extends from another one, the subclass will automatically inherit the parent's decorators. If a property is redefined in the descendant, class decorators will be applied on it from both its own class and the base class.
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 
 class BaseContent {
   @IsEmail()
@@ -413,7 +413,7 @@ validate(user).then(errors => {
 The conditional validation decorator (`@ValidateIf`) can be used to ignore the validators on a property when the provided condition function returns false. The condition function takes the object being validated and must return a `boolean`.
 
 ```typescript
-import { ValidateIf, IsNotEmpty } from 'class-validator';
+import { ValidateIf, IsNotEmpty } from 'pirago-class-validator';
 
 export class Post {
   otherProperty: string;
@@ -434,7 +434,7 @@ Even if your object is an instance of a validation class it can contain addition
 If you do not want to have such properties on your object, pass special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { whitelist: true });
 ```
@@ -474,7 +474,7 @@ If you would rather to have an error thrown when any non-whitelisted properties 
 `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { whitelist: true, forbidNonWhitelisted: true });
 ```
@@ -484,7 +484,7 @@ validate(post, { whitelist: true, forbidNonWhitelisted: true });
 It's possible to pass a custom object to decorators which will be accessible on the `ValidationError` instance of the property if validation failed.
 
 ```ts
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 
 class MyClass {
   @MinLength(32, {
@@ -512,7 +512,7 @@ but skip everything else, e.g. skip missing properties.
 In such situations you will need to pass a special flag to `validate` method:
 
 ```typescript
-import { validate } from 'class-validator';
+import { validate } from 'pirago-class-validator';
 // ...
 validate(post, { skipMissingProperties: true });
 ```
@@ -531,7 +531,7 @@ In such cases you can use validation groups.
 > will result in a unknown value error. When validating with groups the provided group combination should match at least one decorator.
 
 ```typescript
-import { validate, Min, Length } from 'class-validator';
+import { validate, Min, Length } from 'pirago-class-validator';
 
 export class User {
   @Min(12, {
@@ -573,6 +573,52 @@ validate(user, {
 There is also a special flag `always: true` in validation options that you can use. This flag says that this validation
 must be applied always no matter which group is used.
 
+## Validation validateIf
+
+If you want to validate that condition by object, you can use validation validateIf.
+
+```typescript
+class MyClass {
+  @Min(5, {
+    message: 'min',
+    validateIf: (value, args) => {
+      const obj = args.object as MyClass;
+      return !obj.someOtherProperty || obj.someOtherProperty === 'min';
+    },
+  })
+  @Max(3, {
+    message: 'max',
+    validateIf: (value, args) => {
+      const obj = args.object as MyClass;
+      return !obj.someOtherProperty || obj.someOtherProperty === 'max';
+    },
+  })
+  someProperty: number;
+
+  someOtherProperty: string;
+}
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'min';
+validator.validate(model); // this only validate min
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'max';
+validator.validate(model); // this only validate max
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = '';
+validator.validate(model); // this validate both
+
+const model = new MyClass();
+model.someProperty = 4;
+model.someOtherProperty = 'other';
+validator.validate(model); // this validate none
+```
+
 ## Custom validation classes
 
 If you have custom validation logic you can create a _Constraint class_:
@@ -580,7 +626,7 @@ If you have custom validation logic you can create a _Constraint class_:
 1. First create a file, lets say `CustomTextLength.ts`, and define a new class:
 
    ```typescript
-   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
+   import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'pirago-class-validator';
 
    @ValidatorConstraint({ name: 'customText', async: false })
    export class CustomTextLength implements ValidatorConstraintInterface {
@@ -607,10 +653,10 @@ If you have custom validation logic you can create a _Constraint class_:
    Also we defined optional method `defaultMessage` which defines a default error message,
    in the case that the decorator's implementation doesn't set an error message.
 
-2. Then you can use your new validation constraint in your class:
+2) Then you can use your new validation constraint in your class:
 
    ```typescript
-   import { Validate } from 'class-validator';
+   import { Validate } from 'pirago-class-validator';
    import { CustomTextLength } from './CustomTextLength';
 
    export class Post {
@@ -623,10 +669,10 @@ If you have custom validation logic you can create a _Constraint class_:
 
    Here we set our newly created `CustomTextLength` validation constraint for `Post.title`.
 
-3. And use validator as usual:
+3) And use validator as usual:
 
    ```typescript
-   import { validate } from 'class-validator';
+   import { validate } from 'pirago-class-validator';
 
    validate(post).then(errors => {
      // ...
@@ -636,7 +682,7 @@ If you have custom validation logic you can create a _Constraint class_:
 You can also pass constraints to your validator, like this:
 
 ```typescript
-import { Validate } from 'class-validator';
+import { Validate } from 'pirago-class-validator';
 import { CustomTextLength } from './CustomTextLength';
 
 export class Post {
@@ -650,7 +696,7 @@ export class Post {
 And use them from `validationArguments` object:
 
 ```typescript
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'pirago-class-validator';
 
 @ValidatorConstraint()
 export class CustomTextLength implements ValidatorConstraintInterface {
@@ -668,7 +714,7 @@ Lets create a decorator called `@IsLongerThan`:
 1. Create a decorator itself:
 
    ```typescript
-   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+   import { registerDecorator, ValidationOptions, ValidationArguments } from 'pirago-class-validator';
 
    export function IsLongerThan(property: string, validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
@@ -718,7 +764,7 @@ Lets create another custom validation decorator called `IsUserAlreadyExist`:
      ValidatorConstraint,
      ValidatorConstraintInterface,
      ValidationArguments,
-   } from 'class-validator';
+   } from 'pirago-class-validator';
 
    @ValidatorConstraint({ async: true })
    export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
@@ -765,7 +811,7 @@ classes. Here is example how to integrate it with [typedi][2]:
 
 ```typescript
 import { Container } from 'typedi';
-import { useContainer, Validator } from 'class-validator';
+import { useContainer, Validator } from 'pirago-class-validator';
 
 // do this somewhere in the global application level:
 useContainer(Container);
@@ -786,7 +832,7 @@ you have.
 There are several method exist in the Validator that allows to perform non-decorator based validation:
 
 ```typescript
-import { isEmpty, isBoolean } from 'class-validator';
+import { isEmpty, isBoolean } from 'pirago-class-validator';
 
 isEmpty(value);
 isBoolean(value);
@@ -794,124 +840,126 @@ isBoolean(value);
 
 ## Validation decorators
 
-| Decorator                                              | Description                                                                                                                                                                                           |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Common validation decorators**                       |                                                                                                                                                                                                       |
-| `@IsDefined(value: any)`                               | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option.                                                                           |
-| `@IsOptional()`                                        | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property.                                                                                       |
-| `@Equals(comparison: any)`                             | Checks if value equals ("===") comparison.                                                                                                                                                            |
-| `@NotEquals(comparison: any)`                          | Checks if value not equal ("!==") comparison.                                                                                                                                                         |
-| `@IsEmpty()`                                           | Checks if given value is empty (=== '', === null, === undefined).                                                                                                                                     |
-| `@IsNotEmpty()`                                        | Checks if given value is not empty (!== '', !== null, !== undefined).                                                                                                                                 |
-| `@IsIn(values: any[])`                                 | Checks if value is in an array of allowed values.                                                                                                                                                     |
-| `@IsNotIn(values: any[])`                              | Checks if value is not in an array of disallowed values.                                                                                                                                              |
-| **Type validation decorators**                         |                                                                                                                                                                                                       |
-| `@IsBoolean()`                                         | Checks if a value is a boolean.                                                                                                                                                                       |
-| `@IsDate()`                                            | Checks if the value is a date.                                                                                                                                                                        |
-| `@IsString()`                                          | Checks if the value is a string.                                                                                                                                                                      |
-| `@IsNumber(options: IsNumberOptions)`                  | Checks if the value is a number.                                                                                                                                                                      |
-| `@IsInt()`                                             | Checks if the value is an integer number.                                                                                                                                                             |
-| `@IsArray()`                                           | Checks if the value is an array                                                                                                                                                                       |
-| `@IsEnum(entity: object)`                              | Checks if the value is a valid enum                                                                                                                                                                   |
-| **Number validation decorators**                       |
-| `@IsDivisibleBy(num: number)`                          | Checks if the value is a number that's divisible by another.                                                                                                                                          |
-| `@IsPositive()`                                        | Checks if the value is a positive number greater than zero.                                                                                                                                           |
-| `@IsNegative()`                                        | Checks if the value is a negative number smaller than zero.                                                                                                                                           |
-| `@Min(min: number)`                                    | Checks if the given number is greater than or equal to given number.                                                                                                                                  |
-| `@Max(max: number)`                                    | Checks if the given number is less than or equal to given number.                                                                                                                                     |
-| **Date validation decorators**                         |
-| `@MinDate(date: Date \| (() => Date))`                 | Checks if the value is a date that's after the specified date.                                                                                                                                        |
-| `@MaxDate(date: Date \| (() => Date))`                 | Checks if the value is a date that's before the specified date.                                                                                                                                       |
-| **String-type validation decorators**                  |                                                                                                                                                                                                       |
-| `@IsBooleanString()`                                   | Checks if a string is a boolean (e.g. is "true" or "false" or "1", "0").                                                                                                                              |
-| `@IsDateString()`                                      | Alias for `@IsISO8601()`.                                                                                                                                                                             |
-| `@IsNumberString(options?: IsNumericOptions)`          | Checks if a string is a number.                                                                                                                                                                       |
-| **String validation decorators**                       |                                                                                                                                                                                                       |
-| `@Contains(seed: string)`                              | Checks if the string contains the seed.                                                                                                                                                               |
-| `@NotContains(seed: string)`                           | Checks if the string not contains the seed.                                                                                                                                                           |
-| `@IsAlpha()`                                           | Checks if the string contains only letters (a-zA-Z).                                                                                                                                                  |
-| `@IsAlphanumeric()`                                    | Checks if the string contains only letters and numbers.                                                                                                                                               |
-| `@IsDecimal(options?: IsDecimalOptions)`               | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US'`                                                          |
-| `@IsAscii()`                                           | Checks if the string contains ASCII chars only.                                                                                                                                                       |
-| `@IsBase32()`                                          | Checks if a string is base32 encoded.                                                                                                                                                                 |
-| `@IsBase58()`                                          | Checks if a string is base58 encoded.                                                                                                                                                                 |
-| `@IsBase64(options?: IsBase64Options)`                 | Checks if a string is base64 encoded.                                                                                                                                                                 |
-| `@IsIBAN()`                                            | Checks if a string is a IBAN (International Bank Account Number).                                                                                                                                     |
-| `@IsBIC()`                                             | Checks if a string is a BIC (Bank Identification Code) or SWIFT code.                                                                                                                                 |
-| `@IsByteLength(min: number, max?: number)`             | Checks if the string's length (in bytes) falls in a range.                                                                                                                                            |
-| `@IsCreditCard()`                                      | Checks if the string is a credit card.                                                                                                                                                                |
-| `@IsCurrency(options?: IsCurrencyOptions)`             | Checks if the string is a valid currency amount.                                                                                                                                                      |
-| `@IsISO4217CurrencyCode()`                             | Checks if the string is an ISO 4217 currency code.                                                                                                                                                    |
-| `@IsEthereumAddress()`                                 | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums.                                                                                                   |
-| `@IsBtcAddress()`                                      | Checks if the string is a valid BTC address.                                                                                                                                                          |
-| `@IsDataURI()`                                         | Checks if the string is a data uri format.                                                                                                                                                            |
-| `@IsEmail(options?: IsEmailOptions)`                   | Checks if the string is an email.                                                                                                                                                                     |
-| `@IsFQDN(options?: IsFQDNOptions)`                     | Checks if the string is a fully qualified domain name (e.g. domain.com).                                                                                                                              |
-| `@IsFullWidth()`                                       | Checks if the string contains any full-width chars.                                                                                                                                                   |
-| `@IsHalfWidth()`                                       | Checks if the string contains any half-width chars.                                                                                                                                                   |
-| `@IsVariableWidth()`                                   | Checks if the string contains a mixture of full and half-width chars.                                                                                                                                 |
-| `@IsHexColor()`                                        | Checks if the string is a hexadecimal color.                                                                                                                                                          |
-| `@IsHSL()`                                             | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).                                                       |
-| `@IsRgbColor(options?: IsRgbOptions)`                  | Checks if the string is a rgb or rgba color.                                                                                                                                                          |
-| `@IsIdentityCard(locale?: string)`                     | Checks if the string is a valid identity card code.                                                                                                                                                   |
-| `@IsPassportNumber(countryCode?: string)`              | Checks if the string is a valid passport number relative to a specific country code.                                                                                                                  |
-| `@IsPostalCode(locale?: string)`                       | Checks if the string is a postal code.                                                                                                                                                                |
-| `@IsHexadecimal()`                                     | Checks if the string is a hexadecimal number.                                                                                                                                                         |
-| `@IsOctal()`                                           | Checks if the string is a octal number.                                                                                                                                                               |
-| `@IsMACAddress(options?: IsMACAddressOptions)`         | Checks if the string is a MAC Address.                                                                                                                                                                |
-| `@IsIP(version?: "4"\|"6")`                            | Checks if the string is an IP (version 4 or 6).                                                                                                                                                       |
-| `@IsPort()`                                            | Checks if the string is a valid port number.                                                                                                                                                          |
-| `@IsISBN(version?: "10"\|"13")`                        | Checks if the string is an ISBN (version 10 or 13).                                                                                                                                                   |
-| `@IsEAN()`                                             | Checks if the string is an if the string is an EAN (European Article Number).                                                                                                                         |
-| `@IsISIN()`                                            | Checks if the string is an ISIN (stock/security identifier).                                                                                                                                          |
-| `@IsISO8601(options?: IsISO8601Options)`               | Checks if the string is a valid ISO 8601 date format. Use the option strict = true for additional checks for a valid date.                                                                            |
-| `@IsJSON()`                                            | Checks if the string is valid JSON.                                                                                                                                                                   |
-| `@IsJWT()`                                             | Checks if the string is valid JWT.                                                                                                                                                                    |
-| `@IsObject()`                                          | Checks if the object is valid Object (null, functions, arrays will return false).                                                                                                                     |
-| `@IsNotEmptyObject()`                                  | Checks if the object is not empty.                                                                                                                                                                    |
-| `@IsLowercase()`                                       | Checks if the string is lowercase.                                                                                                                                                                    |
-| `@IsLatLong()`                                         | Checks if the string is a valid latitude-longitude coordinate in the format lat, long.                                                                                                                |
-| `@IsLatitude()`                                        | Checks if the string or number is a valid latitude coordinate.                                                                                                                                        |
-| `@IsLongitude()`                                       | Checks if the string or number is a valid longitude coordinate.                                                                                                                                       |
-| `@IsMobilePhone(locale: string)`                       | Checks if the string is a mobile phone number.                                                                                                                                                        |
-| `@IsISO31661Alpha2()`                                  | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code.                                                                                                                  |
-| `@IsISO31661Alpha3()`                                  | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code.                                                                                                                  |
-| `@IsLocale()`                                          | Checks if the string is a locale.                                                                                                                                                                     |
-| `@IsPhoneNumber(region: string)`                       | Checks if the string is a valid phone number using libphonenumber-js.                                                                                                                                 |
-| `@IsMongoId()`                                         | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId.                                                                                                                     |
-| `@IsMultibyte()`                                       | Checks if the string contains one or more multibyte chars.                                                                                                                                            |
-| `@IsNumberString(options?: IsNumericOptions)`          | Checks if the string is numeric.                                                                                                                                                                      |
-| `@IsSurrogatePair()`                                   | Checks if the string contains any surrogate pairs chars.                                                                                                                                              |
-| `@IsTaxId()`                                           | Checks if the string is a valid tax ID. Default locale is `en-US`.                                                                                                                                    |
-| `@IsUrl(options?: IsURLOptions)`                       | Checks if the string is a URL.                                                                                                                                                                        |
-| `@IsMagnetURI()`                                       | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme).                                                                                                       |
-| `@IsUUID(version?: UUIDVersion)`                       | Checks if the string is a UUID (version 3, 4, 5 or all ).                                                                                                                                             |
-| `@IsFirebasePushId()`                                  | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html)                                                                          |
-| `@IsUppercase()`                                       | Checks if the string is uppercase.                                                                                                                                                                    |
-| `@Length(min: number, max?: number)`                   | Checks if the string's length falls in a range.                                                                                                                                                       |
-| `@MinLength(min: number)`                              | Checks if the string's length is not less than given number.                                                                                                                                          |
-| `@MaxLength(max: number)`                              | Checks if the string's length is not more than given number.                                                                                                                                          |
-| `@Matches(pattern: RegExp, modifiers?: string)`        | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i').                                                                                                    |
-| `@IsMilitaryTime()`                                    | Checks if the string is a valid representation of military time in the format HH:MM.                                                                                                                  |
-| `@IsTimeZone()`                                        | Checks if the string represents a valid IANA time-zone.                                                                                                                                               |
-| `@IsHash(algorithm: string)`                           | Checks if the string is a hash The following types are supported:`md4`, `md5`, `sha1`, `sha256`, `sha384`, `sha512`, `ripemd128`, `ripemd160`, `tiger128`, `tiger160`, `tiger192`, `crc32`, `crc32b`. |
-| `@IsMimeType()`                                        | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format                                                                                                  |
-| `@IsSemVer()`                                          | Checks if the string is a Semantic Versioning Specification (SemVer).                                                                                                                                 |
-| `@IsISSN(options?: IsISSNOptions)`                     | Checks if the string is a ISSN.                                                                                                                                                                       |
-| `@IsISRC()`                                            | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code).                                                                                                |
-| `@IsRFC3339()`                                         | Checks if the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date.                                                                                                                 |
-| `@IsStrongPassword(options?: IsStrongPasswordOptions)` | Checks if the string is a strong password.                                                                                                                                                            |
-| **Array validation decorators**                        |                                                                                                                                                                                                       |
-| `@ArrayContains(values: any[])`                        | Checks if array contains all values from the given array of values.                                                                                                                                   |
-| `@ArrayNotContains(values: any[])`                     | Checks if array does not contain any of the given values.                                                                                                                                             |
-| `@ArrayNotEmpty()`                                     | Checks if given array is not empty.                                                                                                                                                                   |
-| `@ArrayMinSize(min: number)`                           | Checks if the array's length is greater than or equal to the specified number.                                                                                                                        |
-| `@ArrayMaxSize(max: number)`                           | Checks if the array's length is less or equal to the specified number.                                                                                                                                |
-| `@ArrayUnique(identifier?: (o) => any)`                | Checks if all array's values are unique. Comparison for objects is reference-based. Optional function can be speciefied which return value will be used for the comparsion.                           |
-| **Object validation decorators**                       |
-| `@IsInstance(value: any)`                              | Checks if the property is an instance of the passed value.                                                                                                                                            |
-| **Other decorators**                                   |                                                                                                                                                                                                       |
-| `@Allow()`                                             | Prevent stripping off the property when no other constraint is specified for it.                                                                                                                      |
+<!-- Disable table formatting because Prettier messing it up. -->
+<!-- prettier-ignore -->
+| Decorator                                       | Description |
+| ------------------------------------------------| ----------- |
+| **Common validation decorators**                | |
+| `@IsDefined(value: any)`                        | Checks if value is defined (!== undefined, !== null). This is the only decorator that ignores skipMissingProperties option. |
+| `@IsOptional()`                                 | Checks if given value is empty (=== null, === undefined) and if so, ignores all the validators on the property. |
+| `@Equals(comparison: any)`                      | Checks if value equals ("===") comparison. |
+| `@NotEquals(comparison: any)`                   | Checks if value not equal ("!==") comparison. |
+| `@IsEmpty()`                                    | Checks if given value is empty (=== '', === null, === undefined). |
+| `@IsNotEmpty()`                                 | Checks if given value is not empty (!== '', !== null, !== undefined). |
+| `@IsIn(values: any[])`                          | Checks if value is in an array of allowed values. |
+| `@IsNotIn(values: any[])`                       | Checks if value is not in an array of disallowed values. |
+| **Type validation decorators**                  | |
+| `@IsBoolean()`                                  | Checks if a value is a boolean. |
+| `@IsDate()`                                     | Checks if the value is a date. |
+| `@IsString()`                                   | Checks if the value is a string. |
+| `@IsNumber(options: IsNumberOptions)`           | Checks if the value is a number. |
+| `@IsInt()`                                      | Checks if the value is an integer number. |
+| `@IsArray()`                                    | Checks if the value is an array |
+| `@IsEnum(entity: object)`                       | Checks if the value is a valid enum |
+| **Number validation decorators**                |
+| `@IsDivisibleBy(num: number)`                   | Checks if the value is a number that's divisible by another. |
+| `@IsPositive()`                                 | Checks if the value is a positive number greater than zero. |
+| `@IsNegative()`                                 | Checks if the value is a negative number smaller than zero. |
+| `@Min(min: number)`                             | Checks if the given number is greater than or equal to given number. |
+| `@Max(max: number)`                             | Checks if the given number is less than or equal to given number. |
+| **Date validation decorators**                  |
+| `@MinDate(date: Date | (() => Date))`           | Checks if the value is a date that's after the specified date. |
+| `@MaxDate(date: Date | (() => Date))`           | Checks if the value is a date that's before the specified date. |  
+| **String-type validation decorators**           | |
+| `@IsBooleanString()`                            | Checks if a string is a boolean (e.g. is "true" or "false" or "1", "0"). |
+| `@IsDateString()`                               | Alias for `@IsISO8601()`. |
+| `@IsNumberString(options?: IsNumericOptions)`   | Checks if a string is a number. |
+| **String validation decorators**                | |
+| `@Contains(seed: string)`                       | Checks if the string contains the seed. |
+| `@NotContains(seed: string)`                    | Checks if the string not contains the seed. |
+| `@IsAlpha()`                                    | Checks if the string contains only letters (a-zA-Z). |
+| `@IsAlphanumeric()`                             | Checks if the string contains only letters and numbers. |
+| `@IsDecimal(options?: IsDecimalOptions)`        | Checks if the string is a valid decimal value. Default IsDecimalOptions are `force_decimal=False`, `decimal_digits: '1,'`, `locale: 'en-US'` |
+| `@IsAscii()`                                    | Checks if the string contains ASCII chars only. |
+| `@IsBase32()`                                   | Checks if a string is base32 encoded. |
+| `@IsBase58()`                                   | Checks if a string is base58 encoded. |
+| `@IsBase64()`                                   | Checks if a string is base64 encoded. |
+| `@IsIBAN()`                                     | Checks if a string is a IBAN (International Bank Account Number). |
+| `@IsBIC()`                                      | Checks if a string is a BIC (Bank Identification Code) or SWIFT code. |
+| `@IsByteLength(min: number, max?: number)`      | Checks if the string's length (in bytes) falls in a range. |
+| `@IsCreditCard()`                               | Checks if the string is a credit card. |
+| `@IsCurrency(options?: IsCurrencyOptions)`      | Checks if the string is a valid currency amount. |
+| `@IsISO4217CurrencyCode()`                      | Checks if the string is an ISO 4217 currency code. |
+| `@IsEthereumAddress()`                          | Checks if the string is an Ethereum address using basic regex. Does not validate address checksums. |
+| `@IsBtcAddress()`                               | Checks if the string is a valid BTC address. |
+| `@IsDataURI()`                                  | Checks if the string is a data uri format. |
+| `@IsEmail(options?: IsEmailOptions)`            | Checks if the string is an email.|
+| `@IsFQDN(options?: IsFQDNOptions)`              | Checks if the string is a fully qualified domain name (e.g. domain.com). |
+| `@IsFullWidth()`                                | Checks if the string contains any full-width chars. |
+| `@IsHalfWidth()`                                | Checks if the string contains any half-width chars. |
+| `@IsVariableWidth()`                            | Checks if the string contains a mixture of full and half-width chars. |
+| `@IsHexColor()`                                 | Checks if the string is a hexadecimal color. |
+| `@IsHSL()`                                      | Checks if the string is an HSL color based on [CSS Colors Level 4 specification](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). |
+| `@IsRgbColor(options?: IsRgbOptions)`           | Checks if the string is a rgb or rgba color. |
+| `@IsIdentityCard(locale?: string)`              | Checks if the string is a valid identity card code. |
+| `@IsPassportNumber(countryCode?: string)`       | Checks if the string is a valid passport number relative to a specific country code. |
+| `@IsPostalCode(locale?: string)`                | Checks if the string is a postal code. |
+| `@IsHexadecimal()`                              | Checks if the string is a hexadecimal number. |
+| `@IsOctal()`                                    | Checks if the string is a octal number. |
+| `@IsMACAddress(options?: IsMACAddressOptions)`  | Checks if the string is a MAC Address. |
+| `@IsIP(version?: "4"\|"6")`                     | Checks if the string is an IP (version 4 or 6). |
+| `@IsPort()`                                     | Checks if the string is a valid port number. |
+| `@IsISBN(version?: "10"\|"13")`                 | Checks if the string is an ISBN (version 10 or 13). |
+| `@IsEAN()`                                      | Checks if the string is an if the string is an EAN (European Article Number). |
+| `@IsISIN()`                                     | Checks if the string is an ISIN (stock/security identifier). |
+| `@IsISO8601(options?: IsISO8601Options)`        | Checks if the string is a valid ISO 8601 date format. Use the option strict = true for additional checks for a valid date. |
+| `@IsJSON()`                                     | Checks if the string is valid JSON. |
+| `@IsJWT()`                                      | Checks if the string is valid JWT. |
+| `@IsObject()`                                   | Checks if the object is valid Object (null, functions, arrays will return false). |
+| `@IsNotEmptyObject()`                           | Checks if the object is not empty. |
+| `@IsLowercase()`                                | Checks if the string is lowercase. |
+| `@IsLatLong()`                                  | Checks if the string is a valid latitude-longitude coordinate in the format lat, long. |
+| `@IsLatitude()`                                 | Checks if the string or number is a valid latitude coordinate. |
+| `@IsLongitude()`                                | Checks if the string or number is a valid longitude coordinate. |
+| `@IsMobilePhone(locale: string)`                | Checks if the string is a mobile phone number. |
+| `@IsISO31661Alpha2()`                           | Checks if the string is a valid ISO 3166-1 alpha-2 officially assigned country code. |
+| `@IsISO31661Alpha3()`                           | Checks if the string is a valid ISO 3166-1 alpha-3 officially assigned country code. |
+| `@IsLocale()`                                   | Checks if the string is a locale. |
+| `@IsPhoneNumber(region: string)`                | Checks if the string is a valid phone number using libphonenumber-js. |
+| `@IsMongoId()`                                  | Checks if the string is a valid hex-encoded representation of a MongoDB ObjectId. |
+| `@IsMultibyte()`                                | Checks if the string contains one or more multibyte chars. |
+| `@IsNumberString(options?: IsNumericOptions)`   | Checks if the string is numeric. |
+| `@IsSurrogatePair()`                            | Checks if the string contains any surrogate pairs chars. |
+| `@IsTaxId()`                                    | Checks if the string is a valid tax ID. Default locale is `en-US`.
+| `@IsUrl(options?: IsURLOptions)`                | Checks if the string is a URL. |
+| `@IsMagnetURI()`                                | Checks if the string is a [magnet uri format](https://en.wikipedia.org/wiki/Magnet_URI_scheme). |
+| `@IsUUID(version?: "3"\|"4"\|"5"\|"all")`       | Checks if the string is a UUID (version 3, 4, 5 or all ). |
+| `@IsFirebasePushId()`                           | Checks if the string is a [Firebase Push ID](https://firebase.googleblog.com/2015/02/the-2120-ways-to-ensure-unique_68.html) |
+| `@IsUppercase()`                                | Checks if the string is uppercase. |
+| `@Length(min: number, max?: number)`            | Checks if the string's length falls in a range. |
+| `@MinLength(min: number)`                       | Checks if the string's length is not less than given number. |
+| `@MaxLength(max: number)`                       | Checks if the string's length is not more than given number. |
+| `@Matches(pattern: RegExp, modifiers?: string)` | Checks if string matches the pattern. Either matches('foo', /foo/i) or matches('foo', 'foo', 'i'). |
+| `@IsMilitaryTime()`                             | Checks if the string is a valid representation of military time in the format HH:MM. |
+| `@IsTimeZone()`                                 | Checks if the string represents a valid IANA time-zone. |
+| `@IsHash(algorithm: string)`                    | Checks if the string is a hash The following types are supported:`md4`, `md5`, `sha1`, `sha256`, `sha384`, `sha512`, `ripemd128`, `ripemd160`, `tiger128`, `tiger160`, `tiger192`, `crc32`, `crc32b`. |
+| `@IsMimeType()`                                 | Checks if the string matches to a valid [MIME type](https://en.wikipedia.org/wiki/Media_type) format |
+| `@IsSemVer()`                                   | Checks if the string is a Semantic Versioning Specification (SemVer). |
+| `@IsISSN(options?: IsISSNOptions)`              | Checks if the string is a ISSN. |
+| `@IsISRC()`                                     | Checks if the string is a [ISRC](https://en.wikipedia.org/wiki/International_Standard_Recording_Code). |
+| `@IsRFC3339()`                                  | Checks if the string is a valid [RFC 3339](https://tools.ietf.org/html/rfc3339) date. |
+| `@IsStrongPassword(options?: IsStrongPasswordOptions)` | Checks if the string is a strong password. |
+| **Array validation decorators**                 | |
+| `@ArrayContains(values: any[])`                 | Checks if array contains all values from the given array of values. |
+| `@ArrayNotContains(values: any[])`              | Checks if array does not contain any of the given values. |
+| `@ArrayNotEmpty()`                              | Checks if given array is not empty. |
+| `@ArrayMinSize(min: number)`                    | Checks if the array's length is greater than or equal to the specified number. |
+| `@ArrayMaxSize(max: number)`                    | Checks if the array's length is less or equal to the specified number. |
+| `@ArrayUnique(identifier?: (o) => any)`         | Checks if all array's values are unique. Comparison for objects is reference-based. Optional function can be speciefied which return value will be used for the comparsion. |
+| **Object validation decorators**                |
+| `@IsInstance(value: any)`                       | Checks if the property is an instance of the passed value. |
+| **Other decorators**                            | |
+| `@Allow()`                                      | Prevent stripping off the property when no other constraint is specified for it. |
 
 ## Defining validation schema without decorators
 
